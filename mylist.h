@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <exception>
+#include <errno.h>
 #include <cstdio>
 #include <cstring>
 
@@ -41,12 +43,12 @@ public:
 
 private:
     snode<T> *m_snode;
-    int m_begin; // 链头
-    int m_end;   // 链尾
-    int m_index; // 可用内存下标空间
+    int m_begin;
+    int m_end;
+    int m_index;
 
-    int m_cnt;   // 计数
-    int m_total; // 总共数的空间
+    int m_cnt;
+    int m_total;
 };
 
 template <class T>
@@ -65,9 +67,14 @@ myNodelist<T>::myNodelist(int n)
     m_end = 0;
     m_index = 0;
     m_cnt = 0;
-    m_snode = new snode<T>[n + 1] {};
-    if (m_snode == nullptr)
-        throw "s";
+    try
+    {
+        m_snode = new snode<T>[n + 1] {};
+    }
+    catch (std::bad_alloc &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
     for (int i = 0; i < n; i++)
     {
         m_snode[i].next = -1;
@@ -101,12 +108,14 @@ myNodelist<T>::myNodelist(const myNodelist<T> &other)
     m_total = other.m_total;
     m_index = other.m_index;
     m_cnt = other.m_cnt;
-    m_snode = new snode<T>[m_total];
-    if (m_snode == nullptr)
+    try
     {
-        throw "alloc is error";
+        m_snode = new snode<T>[m_total + 1] {};
     }
-
+    catch (std::bad_alloc &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
     for (int i = 0; i < m_total; ++i)
     {
         m_snode[i].Data = other.m_snode[i].Data;
@@ -118,25 +127,30 @@ myNodelist<T>::myNodelist(const myNodelist<T> &other)
 template <class T>
 myNodelist<T> &myNodelist<T>::operator=(const myNodelist<T> &other)
 {
-    if (this == other) ;
-    else{
-            m_end = other.m_end;
-            m_begin = other.m_begin;
-            m_total = other.m_total;
-            m_index = other.m_index;
-            m_cnt = other.m_cnt;
-            m_snode = new snode<T>[m_total];
-            if (m_snode == nullptr)
-            {
-                throw "alloc is error";
-            }
+    if (this == other)
+        ;
+    else
+    {
+        m_end = other.m_end;
+        m_begin = other.m_begin;
+        m_total = other.m_total;
+        m_index = other.m_index;
+        m_cnt = other.m_cnt;
+        try
+        {
+            m_snode = new snode<T>[m_total + 1] {};
+        }
+        catch (std::bad_alloc &e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
 
-            for (int i = 0; i < m_total; ++i)
-            {
-                m_snode[i].Data = other.m_snode[i].Data;
-                m_snode[i].next = other.m_snode[i].next;
-                m_snode[i].prior = other.m_snode[i].prior;
-            }
+        for (int i = 0; i < m_total; ++i)
+        {
+            m_snode[i].Data = other.m_snode[i].Data;
+            m_snode[i].next = other.m_snode[i].next;
+            m_snode[i].prior = other.m_snode[i].prior;
+        }
     }
 }
 

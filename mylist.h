@@ -1,5 +1,6 @@
-#ifndef MY__LIST__H
-#define MY__LIST__H
+#pragma once
+
+
 
 #include <iostream>
 #include <algorithm>
@@ -297,5 +298,3 @@ void myNodelist<T>::pop_front()
     m_begin = t;
     --m_cnt;
 }
-
-#endif

@@ -28,8 +28,8 @@ class myNodelist
 {
 public:
     ~myNodelist();
-    explicit myNodelist(int n = Maxsize);
-    myNodelist(const myNodelist &other);
+    explicit myNodelist(int n = Maxsize) ;
+    myNodelist(const myNodelist &other) ;
     myNodelist<T> &operator=(const myNodelist &other);
     int size() const;
     bool empty() const;
@@ -273,7 +273,7 @@ void myNodelist<T>::pop_back()
     m_snode[m_end].prior = -1;
     m_end = pre;
     m_snode[m_end].next = -1;
-
+    --m_index;
     --m_cnt;
 }
 

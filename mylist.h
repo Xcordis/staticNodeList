@@ -81,8 +81,9 @@ myNodelist<T>::myNodelist(int n)
     }
     for (int i = 0; i < m_total; i++)
     {
-        m_snode[i].prior = -1;
-        m_snode[i].prior = i-1;
+        if(!i) 
+            m_snode[i].prior = -1;
+        else m_snode[i].prior = i-1;
         m_snode[i].next = i+1;// init link 
         
     }
@@ -270,6 +271,7 @@ void myNodelist<T>::push_back(const T &x)
         m_snode[m_end].next = m_index;
         m_end = m_index;
     }
+
     ++ m_cnt;
 }
 

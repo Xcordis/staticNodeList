@@ -87,7 +87,7 @@ myNodelist<T>::myNodelist(int n)
         m_snode[i].next = i+1;// init link 
         
     }
-    m_snode[n-1].next = -1;
+    m_snode[n-1].next = n;
 }
 
 template <class T>

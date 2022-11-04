@@ -16,10 +16,10 @@ const int Maxsize = 200;
 // Double linked list implementation
 // space block now 
 
-template <class _Ty>
+template <class T>
 struct snode
 {
-    _Ty Data;
+    T Data;
     int next;
     int prior;
 };
@@ -78,6 +78,8 @@ myNodelist<T>::myNodelist(int n)
     catch (std::bad_alloc &e)
     {
         std::cerr << e.what() << std::endl;
+        exit(-1);
+    
     }
     for (int i = 0; i < m_total; i++)
     {
@@ -93,7 +95,8 @@ myNodelist<T>::myNodelist(int n)
 template <class T>
 myNodelist<T>::~myNodelist()
 {
-    delete[] m_snode;
+    if(m_snode == nullptr);
+    else delete[] m_snode;
 }
 
 template <class T>
@@ -124,6 +127,7 @@ myNodelist<T>::myNodelist(const myNodelist<T> &other)
     catch (std::bad_alloc &e)
     {
         std::cerr << e.what() << std::endl;
+        exit(-1);
     }
     for (int i = 0; i < m_total; ++i)
     {
@@ -152,6 +156,7 @@ myNodelist<T> &myNodelist<T>::operator=(const myNodelist<T> &other)
         catch (std::bad_alloc &e)
         {
             std::cerr << e.what() << std::endl;
+            exit(-1);
         }
 
         for (int i = 0; i < m_total; ++i)
